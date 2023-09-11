@@ -12,4 +12,15 @@ int main()
     catch (int e) {
         std::cerr << "Error #" << e << endl;
     }
+
+    try {
+        throw std::exception("C++ Exception");
+    }
+    catch (const std::exception& e) {
+        std::cerr << e.what() << endl;
+    }
+    catch (...) {
+        cout << "All" << endl;
+    }
+
 }
