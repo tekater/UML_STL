@@ -14,8 +14,8 @@ using std::cout;
 
 //#define STL_ARRAY
 //#define STL_VECTOR
-//#define STL_LIST
-#define STL_FORWARD_LIST
+#define STL_LIST
+//#define STL_FORWARD_LIST
 
 template<typename T>
 void insert(std::list<T>& list, int index, int value) {
@@ -42,6 +42,8 @@ void insert(std::forward_list<T> &flist, int index, int value) {
 
     flist.insert_after(it, value);
 }
+
+
 
 template<typename T>
 void print(std::list<T> list) {
@@ -121,8 +123,10 @@ int main()
     cout << "Resize:\n";
     vec.resize(18);
     vec.reserve(120);
+
     vector_properties(vec);
     vec.shrink_to_fit();
+
     for (int i = 0; i < vec.size(); i++) {
         cout << vec.at(i) << tab;
     }
@@ -191,8 +195,8 @@ int main()
 #endif //STL_VECTOR
 
 #ifdef STL_LIST
-
     std::list<int> list = { 3,5,8,13,21 };
+
     int index;
     int value;
 
@@ -201,6 +205,7 @@ int main()
 
     insert(list, index, value);
     print(list);
+
 #endif
 
 #ifdef STL_FORWARD_LIST
@@ -214,7 +219,6 @@ int main()
 
     insert(flist, index, value);
     print(flist);
-
     
 #endif
 }
