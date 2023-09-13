@@ -18,32 +18,29 @@ using std::cout;
 #define STL_FORWARD_LIST
 
 template<typename T>
-void insert(std::list<T> &list,int index,int value) {
+void insert(std::list<T>& list, int index, int value) {
     typename std::list<T>::iterator it;
 
-    if (index < list.size() / 2) {
-        it = list.begin();
-        int i = 0;
-        while (i < index) { 
-            i++; ++it; 
-        }
-    }else{
-        it = list.end();
-        int i = list.size();
-        while (i > index) { 
-            i--; --it;
-        }
+    it = list.begin();
+    int i = 0;
+
+    while (i < index) {
+        i++; ++it;
     }
+
     list.insert(it, value);
 }
 
 template<typename T>
 void insert(std::forward_list<T> &flist, int index, int value) {
     typename std::forward_list<T>::iterator it = flist.before_begin();
+
     int i = 0;
+
     while (i < index) {
         i++; ++it;
     }
+
     flist.insert_after(it, value);
 }
 
