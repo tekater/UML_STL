@@ -19,13 +19,13 @@ using std::cout;
 
 template<typename T>
 void insert(std::list<T>& list, int index, int value) {
+
     typename std::list<T>::iterator it;
 
     it = list.begin();
-    int i = 0;
 
-    while (i < index) {
-        i++; ++it;
+    for (int i = 0; i < index; i++) {
+        ++it;
     }
 
     list.insert(it, value);
@@ -33,12 +33,11 @@ void insert(std::list<T>& list, int index, int value) {
 
 template<typename T>
 void insert(std::forward_list<T> &flist, int index, int value) {
+
     typename std::forward_list<T>::iterator it = flist.before_begin();
 
-    int i = 0;
-
-    while (i < index) {
-        i++; ++it;
+    for (int i = 0; i < index; i++) {
+        ++it;
     }
 
     flist.insert_after(it, value);
