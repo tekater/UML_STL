@@ -1,6 +1,9 @@
 #include <iostream>
 #include <array>
 #include <vector>
+#include <list>
+#include <forward_list>
+
 using namespace std;
 
 using std::endl;
@@ -10,7 +13,62 @@ using std::cout;
 #define tab "\t"
 
 //#define STL_ARRAY
-#define STL_VECTOR
+//#define STL_VECTOR
+//#define STL_LIST
+#define STL_FORWARD_LIST
+
+template<typename T>
+void insert(std::list<T> &list,int index,int value) {
+    typename std::list<T>::iterator it;
+
+    if (index < list.size() / 2) {
+        it = list.begin();
+        int i = 0;
+        while (i < index) { 
+            i++; ++it; 
+        }
+    }else{
+        it = list.end();
+        int i = list.size();
+        while (i > index) { 
+            i--; --it;
+        }
+    }
+    list.insert(it, value);
+}
+
+template<typename T>
+void insert(std::forward_list<T> &flist, int index, int value) {
+    typename std::forward_list<T>::iterator it = flist.before_begin();
+    int i = 0;
+    while (i < index) {
+        i++; ++it;
+    }
+    flist.insert_after(it, value);
+}
+
+template<typename T>
+void print(std::list<T> list) {
+    for (int i : list) {
+        cout << i << tab;
+    }
+}
+
+template<typename T>
+void print(std::vector<T> vec) {
+    for (int i : vec) {
+        cout << i << tab;
+    }
+}
+
+template<typename T>
+void print(std::forward_list<T> flist) {
+    for (int i : flist) {
+        cout << i << tab;
+    }
+}
+
+
 
 template<typename T>
 void vector_properties(const std::vector<T>& vec) {
@@ -129,12 +187,38 @@ int main()
 
     vec.erase(vec.begin() + index);
 
-    for (int i : vec) {
+    /*for (int i : vec) {
         cout << i << tab;
-    }
+    }*/
+    print(vec);
     cout << endl;
 #endif //STL_VECTOR
 
+#ifdef STL_LIST
 
+    std::list<int> list = { 3,5,8,13,21 };
+    int index;
+    int value;
 
+    cout << "Введите индекс добавляемого значения: "; cin >> index;
+    cout << "Введите значение добавляемого элемента: "; cin >> value;
+
+    insert(list, index, value);
+    print(list);
+#endif
+
+#ifdef STL_FORWARD_LIST
+    std::forward_list<int> flist = { 3,5,8,13,21 };
+
+    int index;
+    int value;
+
+    cout << "Введите индекс добавляемого значения: "; cin >> index;
+    cout << "Введите значение добавляемого элемента: "; cin >> value;
+
+    insert(flist, index, value);
+    print(flist);
+
+    
+#endif
 }
