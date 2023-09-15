@@ -69,7 +69,7 @@ void print(BASE m1) {
 
 		for (it2 = it->second.begin(); it2 != it->second.end(); ++it2) {
 			cout << tab << "Нарушение пункта - " << it2->get_id();
-			cout << " " << CRIMES.at(it2->get_id()); 
+			cout << " " << CRIMES.at(it2->get_id()) << tab; 
 			cout << "," << tab << "на месте - " << it2->get_place() << ".\n";
 		}cout << endl;
 		
