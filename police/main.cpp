@@ -38,7 +38,7 @@ public:
 	int get_id()const {
 		return id;
 	}
-	const std::string get_crime(int id, const GAI& CRIMES)
+	const std::string get_second(int id, const GAI& CRIMES)
 	{
 		return CRIMES.at(get_id());
 	}
@@ -73,7 +73,7 @@ void print(BASE m1) {
 
 		for (it2 = it->second.begin(); it2 != it->second.end(); ++it2) {
 			cout << tab << "Нарушение пункта - " << it2->get_id();
-			cout << " " << it2->get_crime(it2->get_id(),CRIMES) << tab;
+			cout << " " << it2->get_second(it2->get_id(),CRIMES) << tab;
 			cout << "," << tab << "на месте - " << it2->get_place() << ".\n";
 		}cout << endl;
 		
