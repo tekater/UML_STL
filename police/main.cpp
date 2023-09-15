@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include<string>
 #include <map> // map + multimap
 #include <list>
@@ -56,9 +57,12 @@ public:
 
 
 std::ostream& operator<< (std::ostream& os, const Crime& obj) {
-	return os << obj.get_id() << "\t" << obj.get_place();
+	return os << CRIMES.at(obj.get_id()) << "\t" << obj.get_place();
 }
-
+std::ofstream& operator<<(std::ofstream& ofs, const Crime& obj) {
+	ofs << obj.get_id() << "\t" << obj.get_place();
+	return ofs;
+}
 typedef map<string, std::list<Crime>> BASE;
 
 void print(BASE m1) {
@@ -69,24 +73,77 @@ void print(BASE m1) {
 
 		for (it2 = it->second.begin(); it2 != it->second.end(); ++it2) {
 			cout << tab << "Нарушение пункта - " << it2->get_id();
-			cout << " " << CRIMES.at(it2->get_id()) << tab; 
+			cout << " " << CRIMES.at(it2->get_id()) << tab;
 			cout << "," << tab << "на месте - " << it2->get_place() << ".\n";
 		}cout << endl;
-		
+
 	}cout << endl;
-	
+
+	/*for (std::pair<std::string, list<Crime>> i : m1) {
+		cout << i.first << ":\n";
+		for (Crime j : i.second) {
+			cout << tab << j << endl;
+		}
+		cout << endl;
+	}*/
+}
+
+void save(const BASE& base, const std::string& filename) {
+	std::ofstream fout(filename);
+	for (std::pair<std::string, std::list<Crime>> i : base) {
+		fout << i.first << ":\t";
+		for (Crime j : i.second) {
+			fout << tab << j << "," ;
+		}
+		fout.seekp(-1,std::ios::cur); // смещаем курсор на позицию влево
+		fout << ";\n";
+	}
+}
+BASE load(const std::string filename) {
+	BASE base;
+	std::string license_plate;
+	std::string all_crimes;
+
+	std::ifstream fin(filename);
+	if (fin.is_open()) {
+		while (!fin.eof()) {
+			std::getline(fin, license_plate, ':');
+			if (license_plate.empty()) {
+				continue;
+			}
+			fin.ignore();
+			std::getline(fin, all_crimes);
+			size_t start = 0;
+			size_t end = all_crimes.find(',');
+			while (end != std::string::npos) {
+				end = all_crimes.find(',');
+				std::string s_crime = all_crimes.substr(0, end);
+				if (s_crime.empty()) {
+					break;
+				}
+				int id = std::stoi(s_crime, nullptr, 10);
+				s_crime.erase(0, s_crime.find_first_of(' ') + 1);
+				base[license_plate].push_back(Crime(id, s_crime));
+				all_crimes.erase(0, end + 1);
+			}
+		}
+		fin.close();
+		return base;
+	}
 }
 
 int main() // ~Ассоциативные контейнеры
 {
 	setlocale(0, "");
 	
-	BASE base = {
+	/*BASE base = {
 		{"m777ab",	{Crime(1,"ул.Ленина"),			Crime(2,"ул.Ленина"),		Crime(4,"ул.Парижской коммунны")}	},
 		{"k231cc",	{Crime(5,"ул.Карла Маркса"),	Crime(6,"ул.Карла Маркса")}										},
 		{"o000o",	{Crime(3,"ул.Пролетарская"),	Crime(7,"ул.Пролетарская")}										}
-	};
-
+	};*/
+	BASE base = load("base.txt");
 	print(base);
+	//save(base, "base.txt");
 
+	
 }
