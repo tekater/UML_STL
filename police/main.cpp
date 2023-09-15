@@ -38,7 +38,10 @@ public:
 	int get_id()const {
 		return id;
 	}
-
+	const std::string get_crime(int id, const GAI& CRIMES)
+	{
+		return CRIMES.at(get_id());
+	}
 
 	void set_place(const std::string& place) {
 		this->place = place;
@@ -62,19 +65,15 @@ std::ostream& operator<< (std::ostream& os, const Crime& obj) {
 
 typedef map<string, std::list<Crime>> BASE;
 
-void show(BASE m1) {
-	GAI::iterator cr;
+void print(BASE m1) {
 	BASE::iterator it;
 	list<Crime>::iterator it2;
-	map<int, std::string> it3;
 	for (it = m1.begin(); it != m1.end(); ++it) {
 		cout << it->first;
 
 		for (it2 = it->second.begin(); it2 != it->second.end(); ++it2) {
 			cout << tab << "Нарушение пункта - " << it2->get_id();
-			if (cr->first == it2->get_id()) {
-				cout << cr->second;
-			}
+			cout << " " << it2->get_crime(it2->get_id(),CRIMES) << tab;
 			cout << "," << tab << "на месте - " << it2->get_place() << ".\n";
 		}cout << endl;
 		
@@ -92,6 +91,6 @@ int main() // ~Ассоциативные контейнеры
 		{"o000o",	{Crime(3,"ул.Пролетарская"),	Crime(7,"ул.Пролетарская")}										}
 	};
 
-	show(base);
+	print(base);
 
 }
